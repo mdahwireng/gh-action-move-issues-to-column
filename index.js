@@ -103,11 +103,13 @@ try {
       // Find target column
       const { repository: { projects: { edges: projectEdges } } }= await getColumnIds(repoOwner, repo, project);
       const columns = projectEdges.flatMap(p => p.node.columns.edges).map(c => c.node);
-      if (typeof columnId !== 'undefined') { 
-        const targetColumn = columns.find(c => c.id == columnId);
+      let targetColumn;
+      if (typeof columnId !== 'undefined') {
+      targetColumn = columns.find(c => c.id == columnId);
       } else {
-        const targetColumn = columns.find(c => c.name.toLowerCase() == columnName.toLowerCase());
+      targetColumn = columns.find(c => c.name.toLowerCase() == columnName.toLowerCase());
       }
+
       
       // Find card ids for issues
       const issueIds = issues.map(i => i.issue.node_id);
